@@ -42,6 +42,17 @@ class Follow(models.Model):
         related_name='following'
     )
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['following', 'user'],
+                name='unique_following'
+            ),
+        ]
+
+    def __str__(self):
+        return self.text
+
 
 class Comment(models.Model):
     author = models.ForeignKey(
@@ -51,3 +62,6 @@ class Comment(models.Model):
     text = models.TextField()
     created = models.DateTimeField(
         'Дата добавления', auto_now_add=True, db_index=True)
+    
+    def __str__(self):
+        return self.text

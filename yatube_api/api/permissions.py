@@ -13,4 +13,7 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
 
     def has_permission(self, request, view):
         """Разррешение доступа только авторизованному пользователю."""
-        return request.user.is_authenticated
+        return (
+            request.method in permissions.SAFE_METHODS
+            or request.user.is_authenticated
+        )
