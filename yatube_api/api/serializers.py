@@ -41,6 +41,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class FollowSerializer(serializers.ModelSerializer):
     """Сериализатор для модели Follow."""
+
     user = serializers.SlugRelatedField(
         queryset=User.objects.all(),
         slug_field='username',
@@ -57,13 +58,14 @@ class FollowSerializer(serializers.ModelSerializer):
         validators = [
             UniqueTogetherValidator(
                 queryset=Follow.objects.all(),
-                fields=('user', 'following')
+                fields=('user', 'following'),
+                message=('Подписка уже оформлена!')
             )
         ]
 
-    def validate(self, data):
-        if self.context['request'].user == data['following']:
+    def validate(self, attrs):
+        if self.context['request'].user == attrs['following']:
             raise serializers.ValidationError(
-                'Нельзя подписаться на самого себя.'
+                'Нельзя подписаться на самого себя!'
             )
-        return data
+        return attrs
