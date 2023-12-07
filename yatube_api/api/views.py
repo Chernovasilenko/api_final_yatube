@@ -56,7 +56,7 @@ class FollowViewSet(
     serializer_class = FollowSerializer
     permission_classes = (permissions.IsAuthenticated,)
     filter_backends = (SearchFilter,)
-    search_fields = ('following__username', 'user__username',)
+    search_fields = ('=following__username', '=user__username',)
 
     def get_queryset(self):
         """Получение пописок пользователя."""
