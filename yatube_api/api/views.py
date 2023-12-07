@@ -59,7 +59,9 @@ class FollowViewSet(
     search_fields = ('following__username', 'user__username',)
 
     def get_queryset(self):
+        """Получение пописок пользователя."""
         return self.request.user.follower.all()
 
     def perform_create(self, serializer):
-        return serializer.save(user=self.request.user)
+        """Сохранение  подписавшегося пользователя в БД."""
+        serializer.save(user=self.request.user)
